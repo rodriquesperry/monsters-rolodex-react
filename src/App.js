@@ -1,20 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import CardList from "./components/card-list/card-list-component";
 import SearchBox from "./components/search-box/search-box-component";
 
 const App = () => {
-  
-  console.log('render');
-  {/** declare/deconstruct state (original state/setState) to useState = default state */}
+  console.log("render");
+  {
+    /** declare/deconstruct state (original state/setState) to useState = default state */
+  }
   const [searchField, setSearchField] = useState("");
-  console.log(searchField); 
+  console.log(searchField);
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
-  {/** 
-  update variable to searchFieldString and call setSearchField 
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) => setMonsters(users));
+  }, []);
+
+  useEffect(() => {
+    const newFilteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
+    });
+
+    setFilteredMonsters(newFilteredMonsters);
+  }, [monsters, searchField]);
+
+  {
+    /** 
+  Step: update variable to searchFieldString and call setSearchField 
   with searchFieldString as argument 
-  */}
+  */
+  }
   const onSearchChange = (e) => {
     const searchFieldString = e.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
@@ -29,7 +48,7 @@ const App = () => {
         placeholder={"Search Monsters"}
       />
 
-      {/*<CardList monsters={filteredMonsters} />*/}
+      <CardList monsters={filteredMonsters} />
     </div>
   );
 };
