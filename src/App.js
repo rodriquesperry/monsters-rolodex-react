@@ -1,17 +1,38 @@
-import { Component } from "react";
+import { useState } from "react";
 import "./App.css";
 
 import CardList from "./components/card-list/card-list-component";
 import SearchBox from "./components/search-box/search-box-component";
 
-
 const App = () => {
+  
+  console.log('render');
+  {/** declare/deconstruct state (original state/setState) to useState = default state */}
+  const [searchField, setSearchField] = useState("");
+  console.log(searchField); 
+
+  {/** 
+  update variable to searchFieldString and call setSearchField 
+  with searchFieldString as argument 
+  */}
+  const onSearchChange = (e) => {
+    const searchFieldString = e.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  };
+
   return (
     <div className="App">
       <h1 className="main-title">Monster's Rolodex</h1>
+      <SearchBox
+        className={"monsters-search-box"}
+        onChangeHandler={onSearchChange}
+        placeholder={"Search Monsters"}
+      />
+
+      {/*<CardList monsters={filteredMonsters} />*/}
     </div>
-  )
-}
+  );
+};
 
 // class App extends Component {
 //   constructor() {
@@ -24,8 +45,8 @@ const App = () => {
 //     console.log("constructor");
 //   }
 
-//   /* 
-// Lifecycle method #1 
+//   /*
+// Lifecycle method #1
 // ComponentDidmount: This is the moment your information gets placed on the DOM
 // Any time you have a "Class" component and you need to leverage an API call do so inside this method
 // */
@@ -51,7 +72,7 @@ const App = () => {
 //    */
 //   onSearchChange = (e) => {
 //     /** Getting your search to filter through names and display names when typing
-//      1. Initiate your variables 
+//      1. Initiate your variables
 //      2. Set it to filter the monsters in state for each monster that includes the event target value
 //      * */
 //     console.log({ startingArray: this.state.monsters });
@@ -60,9 +81,9 @@ const App = () => {
 //     this.setState(
 //       () => {
 //         /*
-//         Added searchField to state (Line 11) created const 
+//         Added searchField to state (Line 11) created const
 //         searchField = e.target.value.toLocalLowercase()
-//         and called it in the return here to return those that are 
+//         and called it in the return here to return those that are
 //         filtered through our search value
 //         */
 //         return { searchField };
@@ -100,9 +121,9 @@ const App = () => {
 //       <div className="App">
 //         <h1 className="main-title">Monster's Rolodex</h1>
 
-//         {/*  This shows doing it manually compared 
-//         to doing it with the map() method below 
-        
+//         {/*  This shows doing it manually compared
+//         to doing it with the map() method below
+
 //         <h1>{this.state.monsters[0].name}</h1>
 //         <h1>{this.state.monsters[1].name}</h1>
 //         <h1>{this.state.monsters[2].name}</h1>
@@ -116,9 +137,9 @@ const App = () => {
 //         />
 
 //         {/* Remember map() returns a new array */}
-//         {/* Remember to place the "key" attribute in the highest possible element 
+//         {/* Remember to place the "key" attribute in the highest possible element
 //       on the return */}
-//         {/* 
+//         {/*
 //    {filteredMonsters.map((monster) => {
 //           return (
 //             <div key={monster.id}>
@@ -127,10 +148,10 @@ const App = () => {
 //           );
 //         }
 //       )
-//     } 
+//     }
 //       */}
-//         {/** 
-//       Component updates (render/re-render) when you call setState or change props values 
+//         {/**
+//       Component updates (render/re-render) when you call setState or change props values
 //         The lines below replace the commented out function above
 //         "filteredMonsters.map()"
 //     */}
