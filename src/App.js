@@ -34,13 +34,53 @@ Any time you have a "Class" component and you need to leverage an API call do so
       );
   }
 
+  /*
+  * Optimization #2
+  * created named function to not call too many anonymous fn's
+  */
+  onSearchChange = (e) => {
+    /** Getting your search to filter through names and display names when typing
+     1. Initiate your variables 
+     2. Set it to filter the monsters in state for each monster that includes the event target value
+     * */
+    console.log({ startingArray: this.state.monsters });
+    const searchField = e.target.value.toLocaleLowerCase();
+
+    this.setState(
+      () => {
+        /*
+        Added searchField to state (Line 11) created const 
+        searchField = e.target.value.toLocalLowercase()
+        and called it in the return here to return those that are 
+        filtered through our search value
+        */
+        return { searchField };
+      },
+      () => {
+        /**Looking to see what the array is currently with the state NOTE:
+         * You'll first see "endingArray logged"
+         */
+        console.log(this.state.searchField, { endingArray: this.state.monsters });
+      }
+    )
+  }
+
   render() {
     console.log("render");
-/**Moved this const (filteredMonster) outside of onChange function to make it useful outside \
- * of that function as used on Line 82 below
+/*
+  * Optimization #1
+  * Variables are being initialized to shorten our code and 
+  * to know where they come from
  */
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(this.state.searchField);
+    const { monsters, searchField } = this.state;
+    const { onSearchChange } = this;
+
+/*
+  *Moved this const (filteredMonster) outside of onChange function to make it useful outside \
+  * of that function as used on Line 82 below
+ */
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
     return (
@@ -58,32 +98,7 @@ Any time you have a "Class" component and you need to leverage an API call do so
           className="search-box"
           type="search"
           placeholder="search monsters"
-          onChange={(e) => {
-            /** Getting your search to filter through names and display names when typing
-             1. Initiate your variables 
-             2. Set it to filter the monsters in state for each monster that includes the event target value
-             * */
-            console.log({ startingArray: this.state.monsters });
-            const searchField = e.target.value.toLocaleLowerCase();
-
-            this.setState(
-              () => {
-                /*
-                Added searchField to state (Line 11) created const 
-                searchField = e.target.value.toLocalLowercase()
-                and called it in the return here to return those that are 
-                filtered through our search value
-                */
-                return { searchField };
-              },
-              () => {
-                /**Looking to see what the array is currently with the state NOTE:
-                 * You'll first see "endingArray logged"
-                 */
-                console.log(this.state.searchField, { endingArray: this.state.monsters });
-              }
-            );
-          }}
+          onChange={onSearchChange}
         />
 
         {/* Remember map() returns a new array */}
