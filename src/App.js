@@ -2,6 +2,9 @@ import { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+import CardList from "./components/card-list/card-list-component";
+import SearchBox from "./components/search-box/search-box-component";
+
 class App extends Component {
   constructor() {
     super();
@@ -35,9 +38,9 @@ Any time you have a "Class" component and you need to leverage an API call do so
   }
 
   /*
-  * Optimization #2
-  * created named function to not call too many anonymous fn's
-  */
+   * Optimization #2
+   * created named function to not call too many anonymous fn's
+   */
   onSearchChange = (e) => {
     /** Getting your search to filter through names and display names when typing
      1. Initiate your variables 
@@ -60,31 +63,35 @@ Any time you have a "Class" component and you need to leverage an API call do so
         /**Looking to see what the array is currently with the state NOTE:
          * You'll first see "endingArray logged"
          */
-        console.log(this.state.searchField, { endingArray: this.state.monsters });
+        console.log(this.state.searchField, {
+          endingArray: this.state.monsters,
+        });
       }
-    )
-  }
+    );
+  };
 
   render() {
     console.log("render");
-/*
-  * Optimization #1
-  * Variables are being initialized to shorten our code and 
-  * to know where they come from
- */
+    /*
+     * Optimization #1
+     * Variables are being initialized to shorten our code and
+     * to know where they come from
+     */
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
 
-/*
-  *Moved this const (filteredMonster) outside of onChange function to make it useful outside \
-  * of that function as used on Line 82 below
- */
+    /*
+     *Moved this const (filteredMonster) outside of onChange function to make it useful outside \
+     * of that function as used on Line 82 below
+     */
     const filteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
     return (
       <div className="App">
+        <h1 className='main-title'>Monster's Rolodex</h1>
+
         {/*  This shows doing it manually compared 
         to doing it with the map() method below 
         
@@ -94,23 +101,32 @@ Any time you have a "Class" component and you need to leverage an API call do so
         */}
 
         {/* Input searchBox component*/}
-        <input
-          className="search-box"
-          type="search"
-          placeholder="search monsters"
-          onChange={onSearchChange}
+        <SearchBox
+          className={"monsters-search-box"}
+          onChangeHandler={onSearchChange}
+          placeholder={"search monsters"}
         />
 
         {/* Remember map() returns a new array */}
-        {filteredMonsters.map((monster) => {
+        {/* Remember to place the "key" attribute in the highest possible element 
+      on the return */}
+        {/* 
+   {filteredMonsters.map((monster) => {
           return (
-            /* Remember to place the "key" attribute in the highest possible element 
-            on the return */
             <div key={monster.id}>
               <h1>{monster.name}</h1>
             </div>
           );
-        })}
+        }
+      )
+    } 
+      */}
+        {/** 
+      Component updates (render/re-render) when you call setState or change props values 
+        The lines below replace the commented out function above
+        "filteredMonsters.map()"
+    */}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
