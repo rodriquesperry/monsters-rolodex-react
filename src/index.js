@@ -7,9 +7,12 @@ import reportWebVitals from "./reportWebVitals";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <>
+  /** 
+   * Use strictMode it is supposed to render twice to check for errors/side effects 
+   * The greyed out result in the console log is showing StrictMode in use Dark is your code running as usual*/
+  <React.StrictMode>
     <App />
-  </>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
