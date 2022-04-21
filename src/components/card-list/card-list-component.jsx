@@ -1,10 +1,9 @@
-import { Component } from "react";
 import Card from "../card/card-component";
 
 import "../../card-list.styles.css";
 
-class CardList extends Component {
-  render() {
+{/**Destructure the monsters object directly as the parameter of the function */}
+const CardList = (props) => {
     const { monsters } = this.props;
 
     return (
@@ -14,7 +13,7 @@ class CardList extends Component {
         })}
       </div>
     );
-  }
+  
 }
 
 export default CardList;
