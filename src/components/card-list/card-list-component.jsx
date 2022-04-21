@@ -3,8 +3,7 @@ import Card from "../card/card-component";
 import "../../card-list.styles.css";
 
 {/**Destructure the monsters object directly as the parameter of the function */}
-const CardList = (props) => {
-    const { monsters } = this.props;
+const CardList = ({ monsters }) => {
 
     return (
       <div className={"card-list"}>
